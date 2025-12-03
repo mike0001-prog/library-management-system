@@ -1,0 +1,332 @@
+{% extends 'front/base.html' %}
+{% load static %}
+{% block title %}
+  
+{% endblock title %}
+<!-- <!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Add Book - BS {{ request.user }}</title>
+        <link href="{% static '\bootstrap\css\styles.css' %}" rel="stylesheet" />
+        <style>
+            .add_form input{
+                width: 100%;
+                padding: 4.5px;
+                margin-bottom: 5px;
+                border: 2pt solid #0d6efd;
+                border-radius: 5px;
+                position: relative;
+                top: 10px;
+            }
+            .add_form select{
+                width: 100%;
+                padding: 5px;
+                margin-bottom: 5px;
+                border: 2pt solid #0d6efd;
+                border-radius: 5px;
+                position: relative;
+                top: 10px;
+            }
+            .add_form label{
+                padding: 0;
+                margin: -13px;
+                margin-left: auto;
+            }
+        </style>
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    </head>
+    <body class="bg-primary">
+        <div id="layoutAuthentication">
+            <div id="layoutAuthentication_content">
+                <main>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-5">
+                                <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                    <div class="card-header"><h3 class="text-center font-weight-light my-4">{{ book }}</h3></div>
+                                    <div class="card-body">
+                                        <ul>
+                                            <li><strong>AUTHOR: {{ book.author }}</strong></li>
+                                            <li><strong>CATEGORY: {{ book.category }}</strong></li>
+                                            <li><strong>EDITION: {{ book.edition }}</strong></li>
+                                            {% if request.user.is_superuser %}
+                                            <li><strong>QUANTITY: {{ book.quantity }}</strong></li>
+                                            {% endif %}
+                                        </ul>
+                                        <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                                            {% if request.user.is_superuser %}
+                                            <a href="{% url 'update_book' book.id %}">
+                                                <button class="btn btn-primary" type="submit">Update</button>
+                                            </a>
+                                            <a href="{% url 'delete_book' book.id %}">
+                                                <button class="btn btn-danger" type="submit">Delete</button>
+                                            </a>
+                                            <a href="">
+                                                <button class="btn btn-primary" type="submit">Read Book</button>
+                                            </a>
+                                            {% else %}
+                                            <a href="">
+                                                <button class="btn btn-primary" type="submit">Read Book</button>
+                                            </a>
+                                                {% if book.quantity <= 0 %}    
+                                                    <button class="btn btn-secondary" type="submit">Book Unavailble</button>
+                                                {% else %}
+                                                <a href="{% url 'borrow_book' book.id book.isbn %}" class="btn btn-secondary">
+                                                    Borrow Book
+                                                </a>
+                                                {% endif %}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="card-footer text-center py-3">
+                                        <div class="small">
+                                            {% if request.user.is_superuser %}
+                                              <a href="{% url 'book_list' %}">View all Books</a>
+                                            {% else %}
+                                              <a href="{% url 'books' %}">View all Books</a>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+            <div id="layoutAuthentication_footer">
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid px-4">
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted">Copyright &copy; LASCOCO Library <span>2025</span></div>
+                            <div>
+                                <a href="#">Privacy Policy</a>
+                                &middot;
+                                <a href="#">Terms &amp; Conditions</a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="js/scripts.js"></script>
+    </body>
+</html> -->
+{% block style %}
+  
+{% endblock style %}
+
+{% block main %}
+    <!-- <style>
+       table{
+        border: 2px solid blue;
+        width: 100%;
+        height: 50vh;
+       }
+       table tr{
+        border: 2px solid #222;
+        padding: 10px;
+       }
+       table tr td{
+        border: 2px solid #222;
+        text-align: left;
+        padding: 10px;
+        font-weight: 700;
+       }
+    </style> -->
+<style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      margin: 0;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 10px auto;
+      background-color: #fff;
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+
+    .book-header {
+      display: flex;
+      gap: 30px;
+      margin-bottom: 20px;
+    }
+
+    .book-cover {
+      width: 160px;
+      height: 230px;
+      background-color: #ddd;
+      border-radius: 5px;
+      object-fit: cover;
+    }
+
+    .book-meta {
+      flex-grow: 1;
+    }
+
+    .book-title {
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .book-author {
+      font-size: 18px;
+      font-style: italic;
+      color: #666;
+    }
+
+    .status {
+      margin-top: 10px;
+      padding: 5px 10px;
+      border-radius: 20px;
+      color: white;
+      font-size: 14px;
+      display: inline-block;
+    }
+
+    .available {
+      background-color: green;
+    }
+    .unavailable{
+        background-color: red;
+    }
+
+    .borrowed {
+      background-color: red;
+    }
+
+    .description {
+      margin-top: 30px;
+      line-height: 1.6;
+      color: #444;
+    }
+
+    .back-btn {
+      display: inline-block;
+      margin-top: 30px;
+      text-decoration: none;
+      padding: 10px 20px;
+      background-color: #1e90ff;
+      color: white;
+      border-radius: 5px;
+    }
+
+    .back-btn:hover {
+      background-color: #0c75d2;
+    }
+</style>
+    <div class="container-fluid px-4">
+        <h1 class="mt-4">Dashboard</h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item active">
+                {% if request.user.is_superuser %}
+                <a href="{% url 'index' %}">Dashboard</a>
+                {% else %}
+                <a href="{% url 'user_index' %}">Dashboard</a>
+                {% endif %}
+            </li>
+            <li class="breadcrumb-item active">
+                <a href="{% url 'book_list' %}">Books</a>
+            </li>
+            <li class="breadcrumb-item active">{{ book.name }}</li>
+        </ol>
+        <div class="container">
+            <div class="book-header">
+            <img src="{{ book.image.url }}" alt="Book Cover" class="book-cover">
+            <div class="book-meta">
+                <div class="book-title">{{ book.name }}</div>
+                <div class="book-author">by {{ book.author }}</div>
+                <div class="book-info">Category: {{ book.category }}</div>
+                <div class="book-info">Edition: {{ book.edition }}</div>
+                <div class="book-info">Isbn: {{ book.isbn }}</div>
+                {% if request.user.is_superuser %}
+                  <div class="book-info">Quantity: {{ book.quantity }}</div>
+                {% endif %}
+                {% if book.available_quantity <= 2 %}
+                <div class="status unavailable">Reserved</div>
+                {% else %}
+                <div class="status available">Available</div>
+                {% endif %}
+            </div>
+            </div>
+            
+            <div class="description">
+            <strong>Description:</strong><br>
+            {{ book.about_book }}
+            </div>
+
+            <a href="{% url 'book_list' %}" class="back-btn">← Back to Library</a>
+            <div class="button p-2" style="text-align: right;">
+                {% if request.user.is_superuser %}
+                  <a href="{% url 'update_book' book.id %}" class="btn btn-primary m-1">update book</a>
+                  <a href="{% url 'delete_book' book.id %}" class="btn btn-danger m-1">delete book</a>
+                {% else %}
+                    {% if is_available %}
+                        {% if condition %}
+                        <a href="{% url 'borrow_book' book.id book.isbn %}" class="btn btn-primary m-1">borrow book</a>
+                        {% else %}
+                        <a href="" class="btn btn-warning m-1">can't borrow book</a>
+                        {% endif %}
+                        <a href="" class="btn btn-secondary m-1">more option</a>
+                    {% endif %}
+                {% endif %}
+                
+            </div>
+        </div>
+        <!-- <div class="container" style="height: 65vh;">
+            <div class="row justify-content-center">
+                <div class="left d-flex justify-content-center align-items-center" style="flex: 1;height: 65vh;">
+                    <img src="{{ book.image.url }}" alt="{{ user.username }}'s passport" width="100%" height="70%">
+                </div>
+                <div class="right p-2" style="flex: 2;height: 65vh;background: transparent;text-align: center;">
+                    <h3 style="color: #222;">{{ book.name }}</h3>
+                    <div class="book-info">
+                        <table>
+                            <tr>
+                                <td>TITLE</td>
+                                <td>{{ book.name }}</td>   
+                            </tr>
+                            <tr>
+                                <td>AUTHOR</td>
+                                <td>{{ book.author }}</td>
+                            </tr>
+                            <tr>
+                                <td>ISBN</td>
+                                <td>{{ book.isbn }}</td>
+                            </tr>
+                            <tr>
+                                <td>EDITION</td>
+                                <td>{{ book.edition }}</td>
+                            </tr>
+                            <tr>
+                                <td>QUANTITY</td>
+                                <td>{{ book.quantity }}</td>
+                            </tr>
+                            <tr>
+                                <td>CATEGORY</td>
+                                <td>{{ book.category }}</td>
+                            </tr>
+                        </table>
+                        <div class="button p-2" style="text-align: right;">
+                            <a href="{% url 'update_book' book.id %}" class="btn btn-primary m-1">update book</a>
+                            <a href="{% url 'delete_book' book.id %}" class="btn btn-danger m-1">delete book</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+        
+    </div>
+    
+{% endblock main %}

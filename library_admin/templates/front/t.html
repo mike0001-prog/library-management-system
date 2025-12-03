@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>User Profile Table</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 600px;
+      margin: 30px auto;
+      border: 1px solid #ccc;
+      font-family: Arial, sans-serif;
+    }
+
+    td {
+      padding: 15px;
+      vertical-align: top;
+    }
+
+    img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .info-label {
+      font-weight: bold;
+      color: #555;
+    }
+
+    .info-value {
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <table>
+    <tr>
+      <td rowspan="5">
+        <img src="{% static '\custom\borrow-book.png' %}" alt="User Image">
+      </td>
+      <td class="info-label">Name:</td>
+      <td class="info-value">John Doe</td>
+    </tr>
+    <tr>
+      <td class="info-label">Email:</td>
+      <td class="info-value">john@example.com</td>
+    </tr>
+    <tr>
+      <td class="info-label">Phone:</td>
+      <td class="info-value">+234 812 345 6789</td>
+    </tr>
+    <tr>
+      <td class="info-label">Location:</td>
+      <td class="info-value">Lagos, Nigeria</td>
+    </tr>
+    <tr>
+      <td class="info-label">Bio:</td>
+      <td class="info-value">Software developer with a passion for building user-friendly applications.</td>
+    </tr>
+  </table>
+
+</body>
+</html>

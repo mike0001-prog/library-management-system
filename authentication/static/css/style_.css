@@ -1,0 +1,4 @@
+header ul li a:hover{
+    border-bottom: 2px solid var(--bs-link-color);
+    padding-bottom: 3px;
+}

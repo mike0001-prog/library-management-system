@@ -1,0 +1,316 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'style_.css' %}">
+    <link rel="stylesheet" href="{% static 'css\bootstrap.css' %}">
+    <title>Quiz</title>
+</head>
+<body style="overflow-y: scroll;">
+    <div class="modal-overlay" id="modalOverlay">
+         <div class="modal-alert">
+            <h2>Instructions</h2>
+            <p>
+                <ul>
+                    <li>Press the next button or letter N on your keyboard (for PC) to move to the next question</li>
+                    <li>Press the previous button or letter P on your keyboard (for PC) to move to the previous question</li>
+                    <li>Press the Submit button or letter S on your keyboard (for PC) to submit end the quiz</li>
+                </ul>
+            </p>
+            <button id="closeModal" >Start Quiz</button>
+        </div>
+    </div>
+   <div class="body-wrapper">
+      <nav class="navbar">
+        <h2 class="text-success">Lascoco Quiz Hub</h2>     
+        <button class="btn btn-danger" id="quit">Quit</button>
+    </nav>
+   
+    <!-- <script>
+        const instructions = document.querySelector(".instructions")
+        let condition = true
+        if(condition){
+            instructions.style.display = "none"
+        }
+    </script> -->
+    <main>
+
+        <div class="container-fluid d-flex justify-content-center" style="background-color: white;">
+            <div class="">
+             <div class="question-wrapper">
+                
+            </div>
+               <div class="row controls p-4 justify-content-around mt-1 mb-2">
+                <button style="border-radius:10px;" class="btn  btn-success btn-xs-sm disabled" id="prev" >&lArr; Previous </button>
+                <button style="border-radius:10px;" class="btn  btn-success btn-xs-sm" id="next" >Next &rArr;</button>
+                <button class="btn  btn-danger btn-xs-sm" id="submit">Submit</button>
+            </div>
+        </div>
+           
+        </div>
+    <div class="btn-lay d-flex justify-content-center align-items-center">
+        <div class="sub-layout"></div>
+    </div>
+    </main>
+    <footer class="d-flex justify-content-center align-items-center"> 
+        <div class="text-success"> <span class="h5">Quiz Hub |</span> <small class="text-muted">Powered by Innovation</small> 
+            <div class="text-center h6">Lascoco 2025 &copy;</div> 
+    </div> 
+</footer>
+   </div>
+    <script src="{% static 'jquery-3.7.1.min.js' %}"></script>
+    <script>
+//         function Quiz(question,option_one,option_two,option_three,answer) {
+//     this.question = question
+//     this.option_one = option_one
+//     this.option_two = option_two
+//     this.option_three = option_three
+//     this.answer = answer
+// }
+// const  quiz_one = new Quiz("how many days are in a year","365","365.5","364","365")
+// const  quiz_two = new Quiz("how many weeks are in a year","52","51","53","52")
+let response;
+let no_of_q;
+const store =  sessionStorage
+//if the page is refreshed save the state of the quiz
+let index =store.getItem("current")? parseInt(store.getItem("current")) : 0
+store.setItem("current",0)
+const storeQuestions = store.getItem("questions")
+const xhr = new XMLHttpRequest()
+console.log(index)
+const container = document.querySelector(".question-wrapper")
+if(store.getItem("questions")){
+    console.log(typeof store.getItem("questions"))
+    response= JSON.parse(store.getItem("questions"))
+    container.innerHTML = Mount(response[index])
+    confirmAnsweredQuestion()
+    CreateSelectBtn(response.length)
+    ChangeSelectbtnState()
+    no_of_q = response.length
+}else{
+xhr.open("GET","{% url 'quiz_request' %}")
+xhr.onload = function () {
+    
+        if(xhr.readyState == 4 && xhr.status == 200){
+        response = JSON.parse(xhr.responseText)
+        const stringified_object = JSON.stringify([...response])
+        console.log(stringified_object)
+        store.setItem("questions",stringified_object)
+        container.innerHTML = Mount(response[index])
+        confirmAnsweredQuestion()
+	CreateSelectBtn(response.length)
+    no_of_q = response.length
+
+    }else{
+        console.log("error")
+    }
+
+
+}
+xhr.send()
+}
+
+
+
+function Mount(question){
+return ( `  
+<div>
+  <div class="row justify-content-center" >
+<div class="h2" style="text-transform:capitalize;">{{ course }}</div>
+
+</div>
+    <div class="row">
+<h4 style="color:black; opacity:0.7; padding:5px;">Question ${index +1}</h4> 
+
+</div>
+<div class="question-space p-2">
+
+    
+    <h5 class="text-success">
+                ${question.question}
+            </h5>
+            <form action="{% url 'test_home' %}" method=post data-index=${question.id}>
+                {% csrf_token %}
+                <input type="hidden" name="id" value="${question.id}">
+            <ul>
+                <li style="list-style: none;">
+                <input id="option_one" type="radio" name="options"
+ value="${question.option_one}" class="options" >
+                <label for="option_one">${question.option_one}</label>
+                </li>
+                <li style="list-style:none;">
+                <input id="option_two" type="radio" name="options" value="${question.option_two}" class="options">
+                <label for="option_two">${question.option_two}</label>
+                </li>
+                <li style="list-style:none;">
+                <input id="option_three" type="radio" name="options" value="${question.option_three}" class="options">
+                <label for="option_three">${question.option_three}</label>
+                </li>
+                <li style="list-style:none;">
+                <input id="option_four" type="radio" name="options" value="${question.option_four}" class="options">
+                <label for="option_four">${question.option_four}</label>
+                </li>
+            </ul>
+            </form>
+            </div>
+            </div>
+            `)
+}
+ 
+ function CreateSelectBtn(length){
+	 const btnLayout = document.querySelector(".sub-layout")
+	for(let i = 0;i < length;i++){
+        const btn = document.createElement("button")
+        btn.setAttribute("class","btn btn-danger")
+        btn.setAttribute("id",`${i}`)
+        btn.innerHTML=`${i+1}`
+		btnLayout.appendChild(btn)
+        btn.addEventListener("click",function () {
+            console.log(typeof parseInt(this.innerHTML))
+            index = parseInt(this.innerHTML)- 1
+            store.setItem("current",index)
+            container.innerHTML = Mount(response[index])
+            confirmAnsweredQuestion()
+        })
+	}
+	
+}
+
+
+// const option_one = document.querySelector("#option_one")
+// const option_two = document.querySelector("#option_two")
+// const option_three = document.querySelector("#option_three")
+const nextBtn = document.querySelector("#next")
+const prevBtn = document.querySelector("#prev")
+console.log(nextBtn)
+nextBtn.addEventListener("click",function () {
+    Next(no_of_q)
+})
+prevBtn.addEventListener("click",Previous)
+
+function confirmAnsweredQuestion() {
+    const parent = document.querySelectorAll(".question-wrapper form .options")
+        
+    const answered_question = JSON.parse(store.getItem("answered_question"))
+    console.log(index)
+    const id = index
+    console.log(answered_question)
+    if(answered_question){
+         if(id in answered_question){
+         console.log("test")
+        parent.forEach((el)=>{
+            console.log(el.value)
+            console.log(answered_question[id])
+            if(el.value == answered_question[id]){
+                el.checked = true
+                console.log("test2")
+            }
+        })
+    }
+    }
+   
+}
+function Next(length) {
+
+    console.log("click")
+    if(index >= length-1){
+        nextBtn.classList.add("disabled")
+        return
+    }
+    prevBtn.classList.remove("disabled")
+    // index=parseInt(store.getItem("current")) + 1;
+    // index = store.getItem(current)? parseInt(store.getItem("current")) + 1: parseInt(store.getItem("current"))
+    // check the current number and increment 
+
+    if(store.getItem("current")){
+        index = parseInt(store.getItem("current")) + 1
+    }else{
+        index+=1
+    }
+    console.log(index)
+    container.innerHTML = Mount(response[index])
+    confirmAnsweredQuestion()
+    store.setItem("current",index)
+    console.log(store.getItem("current"))
+}
+function Previous() {
+    if(index <= 0){
+        return
+    }
+    index-=1;
+    store.setItem("current",index)
+    
+    const answered_question = JSON.parse(store.getItem("answered_question"))
+    
+    const id = index+1
+    
+     console.log(id,index)
+    
+    container.innerHTML = Mount(response[index])
+    confirmAnsweredQuestion()
+    
+    console.log(store.getItem("current"))
+}
+
+
+function hideModal() {
+    modalOverlay.classList.remove('active');
+    document.body.style.overflow = ''; // Re-enable scrolling
+    sessionstorage.setItem("condition","no")
+}
+
+document.querySelector("#submit").addEventListener("click",Submit)
+console.log(document.querySelector("#submit"))
+document.querySelector("#quit").addEventListener("click",Quit)
+function Submit(){
+    modalOverlay.innerHTML=`<div>
+                            <div  style="text-transform: capitalize; font-weight:bolder;"> are you sure you want to submit? </div>
+                            <div >
+                            <form method="post" action="{% url 'submit_quiz' %}" class="d-flex justify-content-between">
+                            {% csrf_token %}
+                            <button type="submit" value="yes" name="condition" class="btn btn-success" id="yes">YES</button> 
+                            <button type="button" class="btn btn-danger" id="no" onclick=hideModal() >NO</button>
+                            </div>
+                            </div>
+                            `
+    modalOverlay.classList.add('active');
+    document.body.style.overflow = '';
+
+}
+
+function Quit(){
+    modalOverlay.innerHTML=`<div>
+                            <div  style="text-transform: capitalize; font-weight:bolder;"> 
+                            are you sure you want to quit? </div>
+                            <div >
+                            <form method="post" action="{% url 'submit_quiz' %}" class="d-flex justify-content-between">
+                            {% csrf_token %}
+                            <button type="submit" value="no" name="condition" class="btn btn-success" id="yes">YES</button> 
+                            <button type="button" class="btn btn-danger" id="no" onclick=hideModal() >NO</button>
+                            </div>
+                            </div>
+                            `
+    modalOverlay.classList.add('active');
+    document.body.style.overflow = '';
+
+}
+
+function ChangeSelectbtnState(){
+    const answered_question = JSON.parse(store.getItem("answered_question"))
+    const keys = Object.keys(answered_question)
+    console.log(keys)
+    const btns = document.querySelectorAll(".sub-layout button")
+    keys.forEach((key)=>{
+    const el = document.getElementById(`${key}`)
+    el.classList.remove("btn-danger")
+    el.classList.add("btn-success")
+    })
+}
+
+    </script>
+
+<script src="{% static 'index.js' %}"></script>
+</body>
+</html>

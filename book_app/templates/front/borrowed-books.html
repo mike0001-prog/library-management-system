@@ -1,0 +1,181 @@
+{% extends 'front/base.html' %}
+{% load static %}
+
+{% block main %}
+  <div class="container-fluid px-4">
+                                    {% for m in messages %}
+                                        {% if m.level_tag == "error" %}
+                                        <div class="alert alert-danger mt-2" role="alert" style="text-transform:capitalize; ">
+                                            {{m.message}}
+                                        </div>
+                                        {% else %}
+                                        <div class="alert alert-{{ m.level_tag }} mt-2" role="alert" style="text-transform:capitalize; ">
+                                            {{m.message}}
+                                        </div>
+                                        {% endif %}
+                                   {% endfor %}
+        <h1 class="mt-4">Dashboard</h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item active">
+                <a href="{% url 'index' %}">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active">Borrowed Books</li>
+        </ol>
+        <div class="row">
+            <div class="col-xl-3 col-md-6">
+                <div class="card bg-primary text-white mb-4">
+                    <div class="card-footer d-flex align-items-center justify-content-between" style="padding: 0;">
+                        <div class="card-left">
+                            <div class="card-body" style="padding: 10px;">
+                                    <span style="font-weight: 600;font-size: 25px;">{{ books|length }}</span> <br>
+                                    Total Books
+                            </div>
+                        </div>
+                        <!-- <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div> -->
+                        <div class="card-right p-2 m-2" style="border-radius: 50px;background: #fff;">
+                            <img src="{% static '\fontawesome\svgs\solid\book.svg' %}" width="40px" height="40px" style="transform: rotate(180deg);">
+                        </div>
+                    </div>
+                    <div class="card-footer d-flex align-items-center justify-content-between">
+                        <a class="small text-white stretched-link" href="#">View Details</a>
+                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6">
+                <div class="card bg-warning text-white mb-4">
+                    <div class="card-footer d-flex align-items-center justify-content-between" style="padding: 0;">
+                        <div class="card-left">
+                            <div class="card-body" style="padding: 10px;">
+                                    <span style="font-weight: 600;xfont-size: 25px;">5</span> <br>
+                                    Borrowed Books
+                            </div>
+                        </div>
+                        <div class="card-right p-2 m-2" style="border-radius: 50px;background: #fff;">
+                            <img src="{% static '\custom\borrow-book.png' %}" width="40px" height="40px">
+                        </div>
+                    </div>
+                    <div class="card-footer d-flex align-items-center justify-content-between">
+                        <a class="small text-white stretched-link" href="#">View Details</a>
+                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6">
+                <div class="card bg-success text-white mb-4">
+                    <div class="card-footer d-flex align-items-center justify-content-between" style="padding: 0;">
+                        <div class="card-left">
+                            <div class="card-body" style="padding: 10px;">
+                                    <span style="font-weight: 600;font-size: 25px;">4</span> <br>
+                                    Returned Books
+                            </div>
+                        </div>
+                        <div class="card-right p-2 m-2" style="border-radius: 50px;background: #fff;">
+                            <img src="{% static '\custom\returned book.png' %}" width="40px" height="40px">
+                        </div>
+                    </div>
+                    <div class="card-footer d-flex align-items-center justify-content-between">
+                        <a class="small text-white stretched-link" href="#">View Details</a>
+                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6">
+                <div class="card bg-danger text-white mb-4">
+                    <div class="card-footer d-flex align-items-center justify-content-between" style="padding: 0;">
+                        <div class="card-left">
+                            <div class="card-body" style="padding: 10px;">
+                                    <span style="font-weight: 600;font-size: 25px;">3</span> <br>
+                                    Unreturned Books
+                            </div>
+                        </div>
+                        <div class="card-right p-2 m-2" style="border-radius: 50px;background: #fff;">
+                            <img src="{% static '\custom\unreturned book.png' %}" width="40px" height="40px">
+                        </div>
+                    </div>
+                    <div class="card-footer d-flex align-items-center justify-content-between">
+                        <a class="small text-white stretched-link" href="#">View Details</a>
+                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-table me-1"></i>
+                Borrowed Books Table
+            </div>
+            <div class="card-body">
+                <table id="datatablesSimple">
+                    <thead>
+                        <tr>
+                            <th>Book</th>
+                            <th>Borrower</th>
+                            <th>Borrow time</th>
+                            <th>Due date</th>
+                            <th>Return Time</th>
+                            <th>Status</th>
+                            <th>Fine</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for book in books %}
+                        <tr>
+                            <td>
+                                <a href="">{{ book.book }}</a>
+                            </td>
+                            <td>{{ book.borrower }}</td>
+                            <td>{{ book.borrow_time }}</td>
+                            <td>{{ book.due_date }}</td>
+                            <td>{{ book.return_date }}</td>
+                            {% if not book.is_approved %}
+                            <td>
+                                <form action="{% url 'borrowed_books' %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" value="{{ book.id }}" name="id">
+                                    <div style=" display: flex; gap: 2px; flex-direction: row; gap: 1px;" class="px-2">
+                                    <button class="btn btn-success col-6" name="Approval" value="yes">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20px" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M6.633 10.25c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 0 1 2.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 0 0 .322-1.672V2.75a.75.75 0 0 1 .75-.75 2.25 2.25 0 0 1 2.25 2.25c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282m0 0h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 0 1-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 0 0-1.423-.23H5.904m10.598-9.75H14.25M5.904 18.5c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 0 1-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 9.953 4.167 9.5 5 9.5h1.053c.472 0 .745.556.5.96a8.958 8.958 0 0 0-1.302 4.665c0 1.194.232 2.333.654 3.375Z" />
+            </svg>
+                                    </button>
+                                    <button class="btn btn-danger col-6" name="Approval" value="no">X</button>
+                                    </div>
+                                </form>
+                              </td>
+                            {% elif book.is_returned %}
+                              <td>
+                                <p class="text-success" style="font-weight: bolder;">Returned</p>
+                              </td>
+                            {% else %}
+                               <td>
+                                <p class="mb-0 text-danger" style="font-weight: bolder;">Not returned</p>
+                               </td>
+                            {% endif %}
+                            {% if book.fine %}
+                            <td> {{ book.fine }}</td>
+                            {% else %}
+                            <td> - </td>
+                            {% endif %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+        <script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const datatablesSimple = document.getElementById('datatablesSimple');
+    if (datatablesSimple) {
+        new simpleDatatables.DataTable(datatablesSimple);
+    }    
+        })
+    </script>
+{% endblock main %}

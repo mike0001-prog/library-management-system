@@ -1,0 +1,142 @@
+{% extends 'front/base.html' %}
+{% load static %}
+{% block title %}
+    Dashboard - {{ request.user }}
+{% endblock title %}
+<!-- ============================================
+============================================
+============================================ -->
+{% block department %}
+          {% for d in depts %}
+            <a class="nav-link us" href="{% url 'department_user' d.department %}">{{ d }}</a>
+          {% endfor %}
+{% endblock department %}
+
+{% block main %}
+    <div class="container-fluid px-4">
+        <h1 class="mt-4">Dashboard</h1>
+        <div id="msg"></div>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item active">Dashboard</li>
+        </ol>
+
+        <div class="row">
+       
+     
+
+        <div class="row">
+            
+            <div class="col-xl-12">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-chart-bar me-1"></i>
+                        Average Score per Month
+                    </div>
+                    <div class="card-body"><canvas id="borrowChart" width="100%" height="40"></canvas></div>
+                </div>
+            </div>
+
+
+             <div class="col-xl-12">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-chart-bar me-1"></i>
+                        Quiz per Month
+                    </div>
+                    <div class="card-body"><canvas id="borrowChart_2" width="100%" height="40"></canvas></div>
+                </div>
+            </div>
+        </div>
+         <script>
+    const ctx = document.getElementById('borrowChart').getContext('2d');
+    console.log({{ counts|safe }})
+    const borrowChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: {{ months|safe }},   // Month labels from Django
+        datasets: [{
+          label: 'Average Score',
+          data: {{ avgs |safe }},   // Counts from Django
+          backgroundColor: '#143d02',
+          borderColor: '#143d02',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+    scales: {
+      xAxes: [{
+        time: {
+          unit: 'month'
+        },
+        gridLines: {
+          display: false
+        },
+        ticks: {
+          maxTicksLimit: 6
+        }
+      }],
+      yAxes: [{
+        ticks: {
+          min: 0,
+          max: 100,
+          maxTicksLimit: 5
+        },
+        gridLines: {
+          display: true
+        }
+      }],
+    },
+    legend: {
+      display: false
+    }
+  }
+    });
+    
+    const ctx_2 = document.getElementById('borrowChart_2').getContext('2d');
+    const QuizChart = new Chart(ctx_2, {
+      type: 'bar',
+      data: {
+        labels: {{ months_1|safe }},   // Month labels from Django
+        datasets: [{
+          label: 'Quiz Per Month',
+          data: {{ counts|safe }},   // Counts from Django
+          backgroundColor: '#143d02',
+          borderColor: '#143d02',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+    scales: {
+      xAxes: [{
+        time: {
+          unit: 'month'
+        },
+        gridLines: {
+          display: false
+        },
+        ticks: {
+          maxTicksLimit: 6
+        }
+      }],
+      yAxes: [{
+        ticks: {
+          min: 0,
+          max: 20,
+          maxTicksLimit: 5
+        },
+        gridLines: {
+          display: true
+        }
+      }],
+    },
+    legend: {
+      display: false
+    }
+  }
+    });
+                </script>
+      
+    </div>
+{% endblock main %}

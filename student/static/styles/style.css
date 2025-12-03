@@ -1,0 +1,365 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+body{
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    /* background: #e9c27917; */
+    background: linear-gradient(to-right, red, blue);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.container{
+    height: 100vh;
+    width: 100%;
+    background: transparent;
+}
+.header{
+    height: 100px;
+    background: #0000ffc7;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.logo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+.logo img{
+    border-radius: 50px;
+}
+.main-option{
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+.main-option img:not(#user_img){
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+}
+.body{
+    height: calc(100vh - 100px);
+    background: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.left{
+    flex: 1;
+    height: inherit;
+    background: #222;
+}
+.left_2{
+    flex: 0;
+    height: inherit;
+    background: #222;
+}
+.left_2_top{
+    height: 10%;
+    width: 100%;
+    background: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.left_2_bottom{
+    height: 90%;
+    width: 100%;
+    background: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+.left_top{
+    height: 35%;
+    width: 100%;
+    background: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#true{
+    display: block;
+}
+#false{
+    display: none;
+}
+.this_content{
+    text-align: center;
+    padding: 10px;
+    transition: all .4 linear;
+}
+.this_content img{
+    width: 85px;
+    height: 85px;
+    border: 2px solid #333;
+    border-radius: 55px;
+}
+.this_content p{
+    font-weight: 500;
+}
+.this_content:hover{
+    background: #444;
+    transition: all .4s linear;
+}
+.left_bottom{
+    height: 65%;
+    overflow-y: auto;
+}
+.lists a{
+    text-decoration: none;
+    color: #fff;
+}
+.lists a li{
+    list-style: none;
+    padding: 20px;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    gap: 10px;
+    transition: all .3s linear;
+}
+.lists a li:hover{
+    background: #444;
+    transition: all .4s ease-in;
+}
+.right{
+    flex: 4;
+    height: inherit;
+    background: #444;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* chat style */
+.chat_body{
+    height: 100%;
+    background: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.chat_right_left{
+    flex: 1;
+    background: transparent;
+    height: 100%;
+}
+.chat_search{
+    padding: 5px;
+}
+.chat_right_right{
+    flex: 3;
+    /* background: #0000ff; */
+    background: transparent;
+    height: 100%;
+}
+.chat_search form{
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    background: #333;
+    width: 100%;
+}
+.chat_search input{
+    width: 100%;
+    padding: 10px;
+    background: transparent;
+    border: none;
+    outline: none;
+}
+.contacts{
+    background: transparent;
+    height: calc(100vh - 90px);
+    overflow-y: auto;
+}
+.con{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 1px;
+    border-bottom: 1px solid #333;
+    background: #333;
+    cursor: pointer;
+    transition: all .4s linear;
+}
+.con:hover{
+    background: #444;
+    transition: all .4s ease-in;
+}
+.con-detail img{
+    border: 2px solid #333;
+    border-radius: 50px;
+    width: 50px;
+    height: 50px;
+}
+
+/* percontact style */
+
+.chat_area{
+    height: 100vh;
+    width: 100%;
+    /* background: #6a92a7; */
+    background: transparent;
+    border-radius: 20px;
+}
+.chat_area_body{
+    height: calc(100vh - 100px);
+    width: 100%;
+    /* background: #6a92a7; */
+    background: transparent;
+    border-radius: 20px;
+    padding: 10px;
+}
+.sender{
+    display: flex;
+    justify-content: left;
+    gap: 5px;
+    margin: 10px;
+}
+.sender img{
+    border-radius: 50px;
+    box-shadow: 2px 5px 10px black;
+}
+.s_message{
+    background: #71a1bb;
+    width: 200px;
+    padding: 5px;
+    border-radius: 0px 10px 10px 10px;
+    box-shadow: 2px 5px 10px black;
+}
+.receiver{
+    display: flex;
+    justify-content: right;
+    gap: 5px;
+    margin: 10px;
+}
+.receiver img{
+    border-radius: 50px;
+    box-shadow: 2px 5px 10px black;
+}
+.r_message{
+    background: pink;
+    width: 200px;
+    padding: 5px;
+    border-radius: 10px 0px 10px 10px;
+    box-shadow: 2px 5px 10px black;
+}
+
+.chat_area_input{
+    height: 80px;
+    width: 100%;
+    margin-top: 5px;
+    /* background: #6a92a7; */
+    background: transparent;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.chat_area_input form{
+    width: 100%;
+    padding: 25px;
+}
+.chat_area_input input{
+    /* background: #6a92a7; */
+    background: #666;
+    width: 100%;
+    height: 60px;
+    border: none;
+    border-radius: 20px;
+    padding-left: 10px;
+    outline: none;
+    box-shadow: 1px 3px 7px black;
+}
+.chat_area_input input::placeholder{
+    color: #999;
+}
+
+/* task style */
+.task_container{
+    height: calc(100vh - 100px);
+    width: 100%;
+    background: green;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.task_left{
+    flex: 3;
+    height: 100%;
+    position: relative;
+    background: #444;
+}
+.task_head{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+.f1{
+    padding: 5px;
+}
+.f1 p{
+    font-weight: 600;
+    color: #999;
+}
+.f2{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 360px;
+    padding: 2px;
+    background: #888;
+}
+.f2 input{
+    width: 100%;
+    padding: 10px;
+    background: transparent;
+    border: none;
+    outline: none;
+}
+.f2 button{
+    padding: 10px;
+    background: #0000ff;
+    border: none;
+}
+.f3{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 7px;
+    padding: 3px;
+    background: #0000ff;
+    border: 2px solid #333;
+    border-radius: 20px;
+    cursor: pointer;
+}
+.f3 p{
+    font-size: 13px;
+    font-weight: 500;
+    color: #111;
+}
+.f3 img{
+    background: #777;
+    border-radius: 20px;
+    padding: 2px;
+}
+.task_right{
+    flex: 1;
+    height: 100%;
+    position: relative;
+    background: #666;
+}

@@ -1,0 +1,185 @@
+{% extends 'front/base.html' %}
+<!-- {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Add Book - BS {{ request.user }}</title>
+        <link href="{% static '\bootstrap\css\styles.css' %}" rel="stylesheet" />
+        <style>
+            .add_form input{
+                width: 100%;
+                padding: 4.5px;
+                margin-bottom: 5px;
+                border: 2pt solid #0d6efd;
+                border-radius: 5px;
+                position: relative;
+                top: 10px;
+            }
+            .add_form select{
+                width: 100%;
+                padding: 5px;
+                margin-bottom: 5px;
+                border: 2pt solid #0d6efd;
+                border-radius: 5px;
+                position: relative;
+                top: 10px;
+            }
+            .add_form label{
+                padding: 0;
+                margin: -13px;
+                margin-left: auto;
+            }
+        </style>
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    </head>
+    <body class="bg-primary">
+        <div id="layoutAuthentication">
+            <div id="layoutAuthentication_content">
+                <main>
+                    
+                </main>
+            </div>
+            <div id="layoutAuthentication_footer">
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid px-4">
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted">Copyright &copy; LASCOCO Library <span>2025</span></div>
+                            <div>
+                                <a href="#">Privacy Policy</a>
+                                &middot;
+                                <a href="#">Terms &amp; Conditions</a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="js/scripts.js"></script>
+    </body>
+</html> -->
+
+{% block title %}
+  Library - {{ request.user }} === {{ user.last_name }} {{ user.first_name }}
+{% endblock title %}
+
+{% block main %}
+<!-- <style>
+    table {
+        border-collapse: collapse;
+        width: 600px;
+        margin: 30px auto;
+        border: 1px solid #ccc;
+        font-family: Arial, sans-serif;
+    }
+
+    td {
+        padding: 15px;
+        vertical-align: top;
+    }
+
+    #img {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .info-label {
+        font-weight: bold;
+        color: #555;
+    }
+
+    .info-value {
+        margin-bottom: 10px;
+    }
+</style> -->
+    <div class="container-fluid px-4">
+        <h1 class="mt-4">Dashboard</h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item active">
+                <a href="{% url 'index' %}">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active">user - {{ user.last_name }} {{ user.first_name }}</li>
+        </ol>
+        <div class="container" style="height: 65vh;">
+            <div class="row justify-content-center">
+                <!-- <div class="col-lg-5">
+                    <div class="card shadow-lg border-0 rounded-lg mt-5">
+                        <div class="card-header"><h3 class="text-center font-weight-light my-4">{{ user }}</h3></div>
+                        <div class="card-body">
+                            <div class="passport">
+                                <img src="{{ user.profile.passport.url }}" alt="{{ user.username }}'s passport" width="100px" height="100px">
+                            </div>
+                            <ul>
+                                <li><strong>NAME: {{ user.last_name }} {{ user.first_name }}</strong></li>
+                                <li><strong>DEPARTMENT: {{ user.profile.department }}</strong></li>
+                                <li><strong>GENDER: {{ user.profile.gender }}</strong></li>
+                                <li><strong>QUANTITY: {{ book.quantity }}</strong></li>
+                            </ul>
+                            <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                                    <a href="">
+                                    <button class="btn btn-primary" type="submit">Option</button>
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="card-footer text-center py-3">
+                            <div class="small">
+                                <a href="">View all Users</a>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+                <div class="left d-flex justify-content-center align-items-center" style="flex: 1;height: 65vh;">
+                    <img src="{{ user.profile.passport.url }}" alt="{{ user.username }}'s passport" width="100%" height="70%">
+                </div>
+                <div class="right" style="flex: 2;height: 65vh;background: #444;text-align: center;">
+                    <h3 style="color: #fff;">{{ user.username }} INFOMATION</h3>
+                    <div class="user-info">
+                        <table>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </table>
+                        <!-- <table>
+                            <tr>
+                            <td rowspan="5">
+                                <img src="{{ user.profile.passport.url }}" alt="User Image" id="img">
+                            </td>
+                            <td class="info-label">Name:</td>
+                            <td class="info-value">John Doe</td>
+                            </tr>
+                            <tr>
+                            <td class="info-label">Email:</td>
+                            <td class="info-value">john@example.com</td>
+                            </tr>
+                            <tr>
+                            <td class="info-label">Phone:</td>
+                            <td class="info-value">+234 812 345 6789</td>
+                            </tr>
+                            <tr>
+                            <td class="info-label">Location:</td>
+                            <td class="info-value">Lagos, Nigeria</td>
+                            </tr>
+                            <tr>
+                            <td class="info-label">Bio:</td>
+                            <td class="info-value">Software developer with a passion for building user-friendly applications.</td>
+                            </tr>
+                        </table> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    
+{% endblock main %}

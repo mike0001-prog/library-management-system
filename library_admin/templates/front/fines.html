@@ -1,0 +1,76 @@
+{% extends 'front/base.html' %}
+{% load static %}
+{% block title %}
+    Dashboard - {{ request.user }}
+{% endblock title %}
+<!-- ============================================
+============================================
+============================================ -->
+{% block department %}
+          {% for d in depts %}
+            <a class="nav-link us" href="{% url 'department_user' d.department %}">{{ d }}</a>
+          {% endfor %}
+{% endblock department %}
+
+{% block main %}
+<div class="row">
+    <div class="col-6 p-4"><h3>Total</h3></div>
+    <div class="col-6 p-4">1000</div>
+</div>
+
+<div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-table me-1"></i>
+                Fines
+            </div>
+            <div class="card-body">
+                <table id="datatablesSimple">
+                    <thead>
+                        <tr>
+                            <th>Borrower</th>
+                            <th>Book</th>
+                            <th>Due date</th>
+                            <th>Return  date</th>
+                            <th>Days Late</th>
+                            <th>Fine (₦)</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <!-- <tr>
+                            <th>Name</th>
+                            <th>Position</th>
+                            <th>Office</th>
+                            <th>Age</th>
+                            <th>Start date</th>
+                            <th>Salary</th>
+                        </tr> -->
+                       
+                    </tfoot>
+                    <tbody>
+                       {% for book in books %}
+                        <tr>
+                            <td>{{ book.borrower }}</td>
+                             <td>
+                                {{ book.book }}
+                            </td>
+                            <td>{{ book.due_date }}</td>
+                            <td>{{ book.return_date }}</td>
+                            <td>{{ book.return_date|timesince }}</td>
+                             <td>
+                                {{ book.fine }}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+            <script>
+          document.addEventListener("DOMContentLoaded", function () {
+    const datatablesSimple = document.getElementById('datatablesSimple');
+    if (datatablesSimple) {
+        new simpleDatatables.DataTable(datatablesSimple);
+    }    
+        })
+    </script>
+        {% endblock main %}

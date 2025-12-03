@@ -1,0 +1,110 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="stylesheet" href="{% static 'css\bootstrap.css' %}">
+      <link rel="stylesheet" href="{% static 'style_.css' %}">
+    <title>Submitted</title>
+    <style>
+        .score-card{
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px #d5c7c7;
+        }
+        .circle{
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            
+            padding: 50px;
+            background-color: #17e117;
+            /* background-color: #f1f11b;
+            background-color: #f11414; */
+        }
+        body{
+            height: 100vh;
+        }
+        .dot{
+            width: 10px;
+            height: 10px;
+            display: inline-block;
+        }
+        .view-answer{
+            background-color: #17e117;
+            border-radius: 10px;
+            padding: 10px;
+            width: 100%;
+            border: none;
+            outline: none;
+        }
+    </style>
+</head>
+<body class="d-flex justify-content-center align-items-center" >
+    <div class="score-card">
+        <h3 class="text-success" style="text-align: center;">Score Card</h3>
+    <div class="submit-lay" style="display: flex; flex-direction: column; align-items: center;">
+        <div class="circle d-flex justify-content-center align-items-center">
+            <h5 id="percent">{{ percent}}%</h5>
+        </div>
+       <div style="width: 50%;" class="row">
+        <div class="col-6"> 
+        <span class="text-muted">correct</span>
+        <div style="background-color: #17e117;" class="dot" >
+         </div>
+         <span>{{ passed }}</span>
+        </div>
+       <div class="col-6">
+        <span class="text-muted">wrong</span>
+        <div style="background-color: #f11414;" class="dot">
+        </div>
+        <span>{{ failed }}</span>
+        </div>
+        <div class="col-6">
+            <span class="text-muted">Attempted</span> <span>{{ attempted}}</span>
+        </div>
+         <div class="col-6">
+            <span class="text-muted">total question</span> <span>{{ total }}</span>
+        </div>
+         <div class="col-6">
+            <a href="{% url 'view_answer' %}">
+                <button class="btn btn-success">
+                    <svg width="20px"  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+  <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+</svg>
+                      Answers</button>
+            </a>
+        </div>
+        <div class="col-6">
+              <a href="{% url 'user_index' %}">      
+            <button class="btn btn-success">
+     <svg width="20px" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+</svg>
+    Home
+            </button>
+        </a>   
+        </div>
+       </div>
+    </div>
+    </div>
+    <script>
+const percent = document.getElementById("percent")
+const val = percent.innerHTML
+const filteredVal =  val.replace("%","")
+const convertedVal = parseFloat(filteredVal)
+console.log(convertedVal,typeof convertedVal)
+if(convertedVal <= 25){
+    percent.parentElement.style.backgroundColor = "#f11414";
+}else if (convertedVal <= 50 && convertedVal >=26) {
+    percent.parentElement.style.backgroundColor = "#f1f11b";
+}else if (convertedVal <= 75 && convertedVal >=51) {
+    percent.parentElement.style.backgroundColor = "#17e117";
+}
+
+
+    </script>
+</body>
+</html>
