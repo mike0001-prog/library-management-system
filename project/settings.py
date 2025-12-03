@@ -29,10 +29,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DEBUG")
 
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS")
 
+DEBUG = os.getenv("DEBUG") == "True"
+
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",")
 
 # Application definition
 
@@ -98,9 +99,9 @@ WSGI_APPLICATION = 'project.wsgi.application'
 
 
 # If USE_SQLITE=True → use SQLite locally
-USE_SQLITE = os.getenv("USE_SQLITE") == "True"
 
-if USE_SQLITE:
+
+if DEBUG:
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
@@ -110,11 +111,12 @@ if USE_SQLITE:
 else:
     # Otherwise use Postgres (Render production)
     DATABASES = {
-        "default": dj_database_url.config(
+        "default": dj_database_url.parse(
             default=os.getenv("DATABASE_URL"),
             conn_max_age=600,
             ssl_require=True
         )
+        
     }
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
